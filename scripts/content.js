@@ -21,9 +21,10 @@ function getURLParams(url) {
     return parms;
 }
 
-function printMeans(meanArr) {
-    for (i=0; i<meanArr.length; i++) {
-        marksDoc.getElementById("DERIVED_LAM_EXPLANATION$"+ i).innerHTML += meanArr[i];
+function printMeans(response) {
+    meansArr = response.means;
+    for (i=0; i<meansArr.length; i++) {
+        marksDoc.getElementById("DERIVED_LAM_EXPLANATION$"+ i).innerHTML += meansArr[i];
     }
 }
 
@@ -75,6 +76,12 @@ document.onreadystatechange = function () {
 
     chrome.runtime.sendMessage(
         jsondata,
-        data => printMeans(JSON.parse(data).means)
+        data => {
+            try {
+                printMeans(JSON.parse(data))
+            } catch(err) {
+                console.log("[!] Did not get a valid response from API!")
+            }
+        }
     );
 }
