@@ -26,6 +26,7 @@ function printMeans(response) {
     for (i=0; i<meansArr.length; i++) {
         marksDoc.getElementById("DERIVED_LAM_EXPLANATION$"+ i).innerHTML += meansArr[i];
     }
+    marksDoc.getElementById("DERIVED_LAM_LAM_SPECIAL_CHAR$17$").innerHTML += response.overall_mean;
 }
 
 console.log("[!] Zambeel+ is running");
@@ -47,6 +48,7 @@ const ID_CAT = "CATEGORY$";
 const ID_MARK = "STDNT_GRADE_DTL_STUDENT_GRADE$";
 const ID_MAX = "LAM_CLASS_ACTV_MARK_OUT_OF$";
 const ID_OTHER = "DERIVED_LAM_EXPLANATION$"
+const ID_OVERALL  = "STDNT_GRADE_HDR_GRADE_AVG_CURRENT";
 
 // Parse Class Assignments table
 document.onreadystatechange = function () {
@@ -64,24 +66,31 @@ document.onreadystatechange = function () {
                 marksDoc.getElementById(ID_OTHER + i).innerHTML += "✔ Read by <b style='color: purple;'><i>Z+</i></b>";
             }
         }
-    }
 
-    // JSON data for POST
-    let jsondata = JSON.stringify({
-        user: urlParams.EMPLID[0],
-        term: urlParams.STRM[0],
-        class: urlParams.CLASS_NBR[0],
-        marks: marksArr
-    });
+        marksArr.push({
+            "component_no": -1,
+            "component": "Overall",
+            "mark": marksDoc.getElementById(ID_OVERALL).innerHTML,
+            "max_mark": "100.00"
+        })
 
-    chrome.runtime.sendMessage(
-        jsondata,
-        data => {
-            try {
-                printMeans(JSON.parse(data))
-            } catch(err) {
-                console.log("[!] Did not get a valid response from API!")
+        // JSON data for POST
+        let jsondata = JSON.stringify({
+            user: urlParams.EMPLID[0],
+            term: urlParams.STRM[0],
+            class: urlParams.CLASS_NBR[0],
+            marks: marksArr
+        });
+    
+        chrome.runtime.sendMessage(
+            jsondata,
+            data => {
+                try {
+                    printMeans(JSON.parse(data))
+                } catch(err) {
+                    console.log("[!] Did not get a valid response from API!")
+                }
             }
-        }
-    );
+        );
+    }
 }
