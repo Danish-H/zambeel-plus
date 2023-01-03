@@ -67,12 +67,14 @@ document.onreadystatechange = function () {
             }
         }
 
-        marksArr.push({
-            "component_no": -1,
-            "component": "Overall",
-            "mark": marksDoc.getElementById(ID_OVERALL).innerHTML,
-            "max_mark": "100.00"
-        })
+        if (marksDoc.getElementById(ID_OVERALL).innerHTML != null) {
+            marksArr.push({
+                "component_no": -1,
+                "component": "Overall",
+                "mark": marksDoc.getElementById(ID_OVERALL).innerHTML,
+                "max_mark": "100.00"
+            });
+        }
 
         // JSON data for POST
         let jsondata = JSON.stringify({
