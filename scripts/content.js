@@ -51,15 +51,17 @@ const ID_OTHER = "DERIVED_LAM_EXPLANATION$"
 document.onreadystatechange = function () {
     console.log("Frame state changed!");
     if (document.readyState == "complete") {
-        for (i=0; marksDoc.getElementById(ID_MARK + i) != null; i++) {
-            let mark = {
-                "component_no": i,
-                "component": marksDoc.getElementById(ID_COMP + i).innerHTML,
-                "mark": marksDoc.getElementById(ID_MARK + i).innerHTML,
-                "max_mark": marksDoc.getElementById(ID_MAX + i).innerHTML
-            };
-            marksArr.push(mark);
-            marksDoc.getElementById(ID_OTHER + i).innerHTML += "✔ Read by <b style='color: purple;'><i>Z+</i></b>";
+        for (i=0; marksDoc.getElementById(ID_COMP + i) != null; i++) {
+            if (marksDoc.getElementById(ID_MARK + i) != null) {
+                let mark = {
+                    "component_no": i,
+                    "component": marksDoc.getElementById(ID_COMP + i).innerHTML,
+                    "mark": marksDoc.getElementById(ID_MARK + i).innerHTML,
+                    "max_mark": marksDoc.getElementById(ID_MAX + i).innerHTML
+                };
+                marksArr.push(mark);
+                marksDoc.getElementById(ID_OTHER + i).innerHTML += "✔ Read by <b style='color: purple;'><i>Z+</i></b>";
+            }
         }
     }
 
