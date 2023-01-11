@@ -1,0 +1,35 @@
+body.better-tables .PSLEVEL1GRIDWBO,
+body.better-tables .PSLEVEL2GRIDWBO,
+body.better-tables .PSLEVEL3GRIDWBO,
+body.better-tables .PTCPGROUPBOXMINPADDINGWBO,
+body.better-tables .PSGROUPBOXWBO
+{
+    border-color: #ddd !important;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+body.better-tables .PSLEVEL1GRIDLABEL,
+body.better-tables .PSLEVEL2GRIDLABEL,
+body.better-tables .PSLEVEL3GRIDLABEL
+{
+    padding: 10px !important;
+}
+
+body.better-tables .PSGROUPBOXWBO .PSGROUPBOXLABEL,
+body.better-tables .PSLEVEL1GRIDWBO th,
+body.better-tables .PSLEVEL2GRIDWBO th,
+body.better-tables .PSLEVEL3GRIDWBO th
+{
+    border: none;
+    padding: 8px;
+
+}
+
+body.better-tables .PSLEVEL1GRID td,
+body.better-tables .PSLEVEL2GRID td,
+body.better-tables .PSLEVEL3GRID td
+{
+    border: none;
+    padding: 5px 1px;
+}
