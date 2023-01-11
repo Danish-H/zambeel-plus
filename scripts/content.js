@@ -31,6 +31,35 @@ function printMeans(response) {
 
 console.log("[!] Zambeel+ is running");
 
+// Update theme
+if (localStorage.getItem("zpDarkMode") == "on") {
+    document.body.classList.add("dark");
+}
+
+// Add theme change button
+zpDmSw = document.createElement("div");
+zpDmSw.classList.add("ps_box-button", "psc_image_only", "psc_toolaction-home", "ps_header_button", "psc_hide-BP2");
+zpDmSw.innerHTML =
+`<span class="ps-button-wrapper" title="Home">
+<a id="PT_HOME" class="ps-button" role="button" href="#" id="dark-mode-btn">
+<img style="filter: invert(1);" src="https://www.svgrepo.com/show/472736/moon.svg" class="ps-img" alt="Home">
+</a>
+</span>`
+document.getElementById("win0hdrdivPTLAYOUT_HEADER_GROUPBOX6").prepend(zpDmSw);
+
+// Change theme on click
+zpDmSw.onclick = () => {
+    if (document.body.classList.contains("dark")) {
+        document.body.classList.add("animated");
+        document.body.classList.remove("dark");
+        localStorage.setItem("zpDarkMode", "off");
+    } else {
+        document.body.classList.add("animated");
+        document.body.classList.add("dark");
+        localStorage.setItem("zpDarkMode", "on");
+    }
+}
+
 // Parse course information from URL
 urlParams = getURLParams(window.location.search);
 console.log("User: " + urlParams.EMPLID);

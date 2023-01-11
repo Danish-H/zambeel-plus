@@ -15,7 +15,8 @@
     "content_scripts": [
         {
             "matches": ["https://zambeel.lums.edu.pk/*"],
-            "js": ["scripts/content.js"]
+            "js": ["scripts/content.js"],
+            "css": ["assets/themes.css"]
         }
     ],
 

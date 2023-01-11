@@ -1,0 +1,109 @@
+body.animated,
+body.animated .nuitile .nuilp,
+body.animated .nuilppnl .lptabpnl.fade .ps_box-scrollarea-row,
+body.animated .ps_box-scrollarea-row,
+body.animated .ps_box-value, .ps-text,
+body.animated .ps_ag-vertical .ps_ag-step-button.psc_selected,
+body.animated .ps_box-group.ps_apps_content,
+body.animated .ps_header-banner,
+body.animated .ps_header_bar,
+body.animated .ps_prompt-header,
+body.animated .ps_mheader-bar
+{
+    -webkit-transition: background-color 0.5s, color 0.5s, filter 0.5s, border-radius 2s, filter 0.5s !important;
+            transition: background-color 0.5s, color 0.5s, filter 0.5s, border-radius 2s, -webkit-filter 0.5s !important;
+}
+
+:root:not(.psc_mode-hc) .ps_header_bar-container:before
+{
+    -webkit-transition: background 0.5s !important;
+            transition: background 0.5s !important;
+}
+
+:root:not(.psc_mode-hc) body.dark .ps_header_bar-container:before,
+body.dark #ptbr_header_container:before
+{
+    background: #0d0d0d;
+}
+
+body.dark
+{
+    background: #0d0d0d !important;
+}
+
+body.dark .signonMain
+{
+    filter: grayscale(0.8) invert(1) !important;
+}
+
+body.dark .nuitile .nuilp
+{
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 30px !important;
+    filter: grayscale(1) invert(1) !important;
+    background: #eee !important;
+}
+
+body.dark .nuilppnl .lptabpnl.fade .ps_box-scrollarea-row,
+body.dark form
+{
+    background: #0d0d0d !important;
+}
+
+body.dark .ps_header_bar,
+body.dark .pthdr2container
+{
+    border: 1px solid #222 !important;
+}
+
+body.dark .ps_box-scrollarea-row
+{
+    background: #1D1D1D !important;
+    border-color: #111 !important;
+}
+
+body.dark .ps_box-value,
+body.dark .ps-text,
+body.dark .titletext
+{
+    color: #bbb !important;
+}
+
+body.dark .ps_box-img
+{
+    filter: grayscale(1) invert(1) !important;
+}
+
+body.dark .ps_ag-vertical .ps_ag-step-button.psc_selected {
+    background-color: #18251e !important;
+}  
+
+body.dark .ps_box-group.ps_apps_content
+{
+    background: #1D1D1D;
+}
+
+body.dark .ps_header-banner,
+body.dark .ps_header_bar,
+body.dark .pthdr2container
+{
+    background: #0d0d0d !important;
+}
+
+body.dark .ps_prompt-header,
+body.dark .ps_mheader-bar 
+{
+    background: #eee !important;
+}
+
+body.dark #ptifrmtgtframe,
+body.dark .ps_target-iframe
+{
+    filter: invert(0.95) grayscale(0.5);
+}
+
+body.dark .ps_modal_container.ps_popup-menu,
+body.dark .ps_box-popupmenu,
+body.dark .psNavBar {
+    filter: invert(0.9) grayscale(1) !important;
+}
