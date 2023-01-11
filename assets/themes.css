@@ -75,8 +75,13 @@ body.dark .ps_box-img
 }
 
 body.dark .ps_ag-vertical .ps_ag-step-button.psc_selected {
-    background-color: #18251e !important;
-}  
+    background-color: #101010 !important;
+}
+
+body.dark .ps_ag-vertical .ps_ag-step-button:not(.psc_selected):not(.psc_disabled):hover,
+body.dark .ps_ag-vertical .ps_ag-step-group-button:not(.psc_disabled):hover {
+    background-color: #191919;
+}
 
 body.dark .ps_box-group.ps_apps_content
 {
