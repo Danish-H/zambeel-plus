@@ -73,12 +73,24 @@ btnDark.onclick = () => {
 menu = document.createElement("ul");
 menu.classList.add("zpMenu");
 menu.innerHTML = `<li><a>Zambeel+ v`+chrome.runtime.getManifest().version+`</a></li>`;
+
+// Create tables button
 btnTables = document.createElement("li");
 btnTables.innerHTML = `<a href="#">Better Tables: Off</a>`;
 if (document.body.classList.contains("better-tables")) {
     btnTables.innerHTML = `<a href="#">Better Tables: On</a>`;
 }
 menu.appendChild(btnTables);
+
+// Create dark mode button for menu
+btnDark2 = document.createElement("li");
+btnDark2.innerHTML = `<a href="#">&#127766;</a>`;
+if (document.body.classList.contains("dark")) {
+    btnDark2.innerHTML = `<a href="#">&#127761;</a>`;
+}
+menu.appendChild(btnDark2);
+
+// Add buttons to menu
 document.body.appendChild(menu);
 
 // Change button and tables on click
@@ -89,6 +101,18 @@ btnTables.onclick = () => {
         btnTables.innerHTML = `<a href="#">Better Tables: On</a>`;
     } else {
         btnTables.innerHTML = `<a href="#">Better Tables: Off</a>`;
+    }
+}
+
+// Change theme on click
+btnDark2.onclick = () => {
+    document.body.classList.add("animated");
+    localStorage.setItem("zpDarkMode", !document.body.classList.contains("dark"));
+    updateTheme();
+    if (document.body.classList.contains("dark")) {
+        btnDark2.innerHTML = `<a href="#">&#127761;</a>`;
+    } else {
+        btnDark2.innerHTML = `<a href="#">&#127766;</a>`;
     }
 }
 
