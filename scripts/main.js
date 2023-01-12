@@ -58,8 +58,9 @@ if (document.getElementById("pt_envinfo")) {
 } else if (document.getElementById("ptifrmtgtframe")) {
     var marksFrame = document.getElementById("ptifrmtgtframe");
     var marksDoc = marksFrame.contentWindow.document;
-
-    roll = marksDoc.getElementById("pt_envinfo_win0").getAttribute("user");
+    if (marksDoc.getElementById("pt_envinfo_win0")) {
+        roll = marksDoc.getElementById("pt_envinfo_win0").getAttribute("user");
+    }
 }
 
 // Just testing
