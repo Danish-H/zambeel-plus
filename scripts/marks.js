@@ -1,7 +1,7 @@
 function monkeyPatch() {
     var script = document.createElement('script');
     script.setAttribute("language", "JavaScript");
-    script.src = "chrome-extension://pclopneiijdgoknfgiiojenfmddfnikn/scripts/monkey.js";
+    script.src = chrome.runtime.getURL("scripts/monkey.js");
     document.head.appendChild(script);
 }
 
