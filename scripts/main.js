@@ -84,9 +84,9 @@ menu.appendChild(btnTables);
 
 // Create dark mode button for menu
 btnDark2 = document.createElement("li");
-btnDark2.innerHTML = `<a href="#">&#127766;</a>`;
+btnDark2.innerHTML = `<a href="#" style="padding: 5px">&#127766;</a>`;
 if (document.body.classList.contains("dark")) {
-    btnDark2.innerHTML = `<a href="#">&#127761;</a>`;
+    btnDark2.innerHTML = `<a href="#" style="padding: 5px">&#127761;</a>`;
 }
 menu.appendChild(btnDark2);
 
@@ -98,9 +98,9 @@ btnTables.onclick = () => {
     localStorage.setItem("zpBetterTables", !document.body.classList.contains("better-tables"));
     updateTables();
     if (document.body.classList.contains("better-tables")) {
-        btnTables.innerHTML = `<a href="#">Better Tables: On</a>`;
+        btnTables.innerHTML = `<a href="#" style="padding: 5px">Better Tables: On</a>`;
     } else {
-        btnTables.innerHTML = `<a href="#">Better Tables: Off</a>`;
+        btnTables.innerHTML = `<a href="#" style="padding: 5px">Better Tables: Off</a>`;
     }
 }
 
@@ -110,9 +110,9 @@ btnDark2.onclick = () => {
     localStorage.setItem("zpDarkMode", !document.body.classList.contains("dark"));
     updateTheme();
     if (document.body.classList.contains("dark")) {
-        btnDark2.innerHTML = `<a href="#">&#127761;</a>`;
+        btnDark2.innerHTML = `<a href="#" style="padding: 5px">&#127761;</a>`;
     } else {
-        btnDark2.innerHTML = `<a href="#">&#127766;</a>`;
+        btnDark2.innerHTML = `<a href="#" style="padding: 5px">&#127766;</a>`;
     }
 }
 
