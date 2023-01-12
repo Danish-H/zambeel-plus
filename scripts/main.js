@@ -55,6 +55,11 @@ btnDark.onclick = () => {
 var roll = "";
 if (document.getElementById("pt_envinfo")) {
     roll = document.getElementById("pt_envinfo").getAttribute("user");
+} else if (document.getElementById("ptifrmtgtframe")) {
+    var marksFrame = document.getElementById("ptifrmtgtframe");
+    var marksDoc = marksFrame.contentWindow.document;
+
+    roll = marksDoc.getElementById("pt_envinfo_win0").getAttribute("user");
 }
 
 // Just testing
