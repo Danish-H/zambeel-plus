@@ -3,7 +3,7 @@
     
     "name": "Zambeel+",
     "description": "Add useful features to Zambeel!",
-    "version": "0.0.1",
+    "version": "0.0.2",
 
     "icons": {
         "16": "images/icon-16.png",
@@ -16,7 +16,7 @@
         {
             "matches": ["https://zambeel.lums.edu.pk/*"],
             "js": ["scripts/main.js"],
-            "css": ["assets/themes.css"]
+            "css": ["assets/main.css", "assets/themes.css"]
         },
         {
             "matches": ["https://zambeel.lums.edu.pk/*"],

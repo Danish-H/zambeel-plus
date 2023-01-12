@@ -34,7 +34,8 @@ body.better-tables .PSLEVEL3GRID td
     padding: 5px 1px;
 }
 
-body.better-tables .PTGRIDTAB a span, #PSTAB a span
+body.better-tables .PTGRIDTAB a span,
+body.better-tables #PSTAB a span
 {
     border-radius: 10px 10px 0 0;
 }

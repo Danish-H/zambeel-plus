@@ -6,6 +6,20 @@ function updateTheme() {
     }
 }
 
+function updateTables() {
+    bodies = [document.body];
+
+    if (document.getElementById("main_target_win0")) { bodies.push(document.getElementById("main_target_win0").contentWindow.document.body) }
+    if (document.getElementById("ptifrmtgtframe"))   { bodies.push(document.getElementById("ptifrmtgtframe").contentWindow.document.body)   }
+
+    for (let i=0; i<bodies.length; i++) {
+        if (bodies[i]) {
+            if (localStorage.getItem("zpBetterTables") == "true") { bodies[i].classList.add("better-tables") }
+            else { bodies[i].classList.remove("better-tables") }
+        }
+    }
+}
+
 function addBtnDark() {
     if (document.getElementById("win0hdrdivPTLAYOUT_HEADER_GROUPBOX6")) {
         document.getElementById("win0hdrdivPTLAYOUT_HEADER_GROUPBOX6").prepend(btnDark);
@@ -28,10 +42,14 @@ body #ptbr_header_container:before
 }
 
 
+
 console.log("[!] Zambeel+ is running");
 
 // Update theme
 updateTheme();
+updateTables();
+
+
 
 // Create dark mode button
 btnDark = document.createElement("div");
@@ -51,6 +69,31 @@ btnDark.onclick = () => {
 
 
 
+// Create Zambeel+ menu
+menu = document.createElement("ul");
+menu.classList.add("zpMenu");
+menu.innerHTML = `<li><a>Zambeel+ v0.0.1-alpha3</a></li>`;
+btnTables = document.createElement("li");
+btnTables.innerHTML = `<a href="#">Better Tables: Off</a>`;
+if (document.body.classList.contains("better-tables")) {
+    btnTables.innerHTML = `<a href="#">Better Tables: On</a>`;
+}
+menu.appendChild(btnTables);
+document.body.appendChild(menu);
+
+// Change button and tables on click
+btnTables.onclick = () => {
+    localStorage.setItem("zpBetterTables", !document.body.classList.contains("better-tables"));
+    updateTables();
+    if (document.body.classList.contains("better-tables")) {
+        btnTables.innerHTML = `<a href="#">Better Tables: On</a>`;
+    } else {
+        btnTables.innerHTML = `<a href="#">Better Tables: Off</a>`;
+    }
+}
+
+
+
 // Get roll number
 var roll = "";
 if (document.getElementById("pt_envinfo")) {
@@ -63,6 +106,7 @@ if (document.getElementById("pt_envinfo")) {
     }
 }
 
+// Get color
 if (roll != "") {
     chrome.runtime.sendMessage(
         ["get_colors", JSON.stringify({ roll_no: roll })],

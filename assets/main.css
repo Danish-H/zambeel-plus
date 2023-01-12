@@ -1,0 +1,40 @@
+.zpMenu
+{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #0A0A0A;
+    position: absolute;
+    bottom: 60px;
+    left: -150px;
+    z-index: 999999999999;
+    -webkit-transition: 1s ease;
+            transition: 1s ease;
+}
+
+.zpMenu:hover {
+    left: 0px;
+}
+  
+.zpMenu li
+{
+    float: right;
+    padding-left: 20px;
+}
+  
+.zpMenu li a
+{
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 7px;
+    font-size: 13px;
+    text-decoration: none;
+}
+  
+ul.zpMenu li a:hover
+{
+    background-color: #222;
+    text-decoration: none;
+}

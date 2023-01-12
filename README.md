@@ -1,4 +1,4 @@
-# zambeel-plus
+# Zambeel+
 Google Chrome extension for LUMS Zambeel portal.
 
-Currently in Alpha.
+This project is currently in Alpha.

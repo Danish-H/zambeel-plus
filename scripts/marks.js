@@ -39,7 +39,7 @@ function printMeans(response) {
 
 window.onload = function () {
     // User better tables
-    if (localStorage.getItem("zpBetterTables") == "on") {
+    if (localStorage.getItem("zpBetterTables") == "true") {
         document.body.classList.add("better-tables");
     }
 
@@ -63,6 +63,7 @@ window.onload = function () {
     const ID_OTHER = "DERIVED_LAM_EXPLANATION$";
     const ID_OVERALL  = "STDNT_GRADE_HDR_GRADE_AVG_CURRENT";
 
+    // Parse marks
     for (i=0; document.getElementById(ID_COMP + i) != null; i++) {
         if (document.getElementById(ID_MARK + i) != null) {
             let mark = {
@@ -76,6 +77,7 @@ window.onload = function () {
         }
     }
 
+    // Parse overall
     if (document.getElementById(ID_OVERALL).innerHTML != null) {
         marksArr.push({
             "component_no": -1,
@@ -93,8 +95,8 @@ window.onload = function () {
         marks: marksArr
     });
 
+    // Send POST
     data = ['add_mark', jsondata];
-
     chrome.runtime.sendMessage(
         data,
         data => {
