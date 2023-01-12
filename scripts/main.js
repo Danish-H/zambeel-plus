@@ -64,6 +64,12 @@ if (document.getElementById("pt_envinfo")) {
 }
 
 // Just testing
-if (roll.endsWith("83")) {
+if (roll == "25100083") {
     setAccent("#FFB6C1", "#FF69B4");
+} else if (roll == "25100183") {
+    setAccent("#dd7d8c", "#9d0b0b");
+} else if (roll == "25100165") {
+    setAccent("#dd7d8c", "#e5d319");
+} else if (roll == "25100165") {
+    setAccent("#dd7d8c", "#e5d319");
 }
