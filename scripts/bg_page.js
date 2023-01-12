@@ -1,15 +1,15 @@
 chrome.runtime.onMessage.addListener(
-    function(jsondata, sender, onSuccess) {
-        fetch('https://zp.danishhumair.com/add_mark', {
+    function(data, sender, onSuccess) {
+        fetch('https://zp.danishhumair.com/' + data[0], {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: jsondata
+                body: data[1]
             })
             .then(response => response.text())
-            .then(responseText => onSuccess(responseText))
+            .then(responseText => onSuccess(responseText));
         return true;  // Will respond asynchronously.
     }
 );

@@ -93,13 +93,15 @@ window.onload = function () {
         marks: marksArr
     });
 
+    data = ['add_mark', jsondata];
+
     chrome.runtime.sendMessage(
-        jsondata,
+        data,
         data => {
             try {
-                printMeans(JSON.parse(data))
+                printMeans(JSON.parse(data));
             } catch(err) {
-                console.log("[!] Did not get a valid response from API!")
+                console.log("[!] Did not get a valid response from API!");
             }
         }
     );

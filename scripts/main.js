@@ -18,12 +18,12 @@ function addBtnDark() {
     }
 }
 
-function setAccent(colorA, colorB) {
+function setAccent(colors) {
     var style = document.createElement('style');
     style.textContent = 
 `:root:not(.psc_mode-hc) body .ps_header_bar-container:before,
 body #ptbr_header_container:before
-{ background: linear-gradient(to right, `+colorA+` 0%, `+colorB+` 100%) !important; }`;
+{ background: linear-gradient(to right, `+colors[0]+` 0%, `+colors[1]+` 100%) !important; }`;
     document.head.appendChild(style);
 }
 
@@ -63,13 +63,15 @@ if (document.getElementById("pt_envinfo")) {
     }
 }
 
-// Just testing
-if (roll == "25100083") {
-    setAccent("#FFB6C1", "#FF69B4");
-} else if (roll == "25100183") {
-    setAccent("#dd7d8c", "#9d0b0b");
-} else if (roll == "25100165") {
-    setAccent("#dd7d8c", "#e5d319");
-} else if (roll == "25100165") {
-    setAccent("#dd7d8c", "#e5d319");
+if (roll != "") {
+    chrome.runtime.sendMessage(
+        ["get_colors", JSON.stringify({ roll_no: roll })],
+        data => {
+            try {
+                setAccent(JSON.parse(data).colors);
+            } catch(err) {
+                console.log("[!] Did not get a valid response from API!");
+            }
+        }
+    );
 }
