@@ -72,7 +72,7 @@ btnDark.onclick = () => {
 // Create Zambeel+ menu
 menu = document.createElement("ul");
 menu.classList.add("zpMenu");
-menu.innerHTML = `<li><a>Zambeel+ v0.0.1-alpha3</a></li>`;
+menu.innerHTML = `<li><a>Zambeel+ v`+chrome.runtime.getManifest().version+`</a></li>`;
 btnTables = document.createElement("li");
 btnTables.innerHTML = `<a href="#">Better Tables: Off</a>`;
 if (document.body.classList.contains("better-tables")) {
