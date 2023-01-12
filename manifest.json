@@ -26,6 +26,13 @@
         }
     ],
 
+    "web_accessible_resources": [
+        {
+            "matches": ["https://zambeel.lums.edu.pk/*"],
+            "resources": ["scripts/monkey.js"]
+        }
+    ],
+
     "host_permissions": ["https://zp.danishhumair.com/*"],
 
     "background": {

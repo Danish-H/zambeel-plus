@@ -1,12 +1,7 @@
 function monkeyPatch() {
     var script = document.createElement('script');
-    script.textContent = 
-`orig_submitAction_win0 = submitAction_win0;
-submitAction_win0 = function (form, id, event, sAjaxTrfUrl, bWarning, sScriptAfter, nTrfURLType) {
-  orig_submitAction_win0(form, id, event, sAjaxTrfUrl, bWarning, sScriptAfter, nTrfURLType);
-  console.log("frame reloaded!!!!!!!!!")
-}`;
-    script.setAttribute("language", "JavaScript");
+    script.setAttribute("languages", "JavaScript");
+    script.src = "chrome-extension://pclopneiijdgoknfgiiojenfmddfnikn/scripts/monkey.js";
     document.head.appendChild(script);
 }
 
@@ -39,6 +34,7 @@ function printMeans(response) {
         document.getElementById("DERIVED_LAM_EXPLANATION$"+ i).innerHTML += meansArr[i];
     }
     document.getElementById("DERIVED_LAM_LAM_SPECIAL_CHAR$17$").innerHTML += response.overall_mean;
+    monkeyPatch();
 }
 
 window.onload = function () {
@@ -51,9 +47,6 @@ window.onload = function () {
     if (!document.getElementById("win0divSTDNT_GRADE_DTL$0")) {
         return;
     }
-
-    // Monkey patch iframe loading
-    //monkeyPatch();
 
     // Parse course information from URL
     urlParams = getURLParams(window.location.search);
