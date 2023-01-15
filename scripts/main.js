@@ -74,9 +74,24 @@ function parseClassInfo(doc, timingId, classId) {
     }
 }
 
-function drawClass(ctx, d, sT, eT, fill="#555", border="#fff") {
+function createSchedPrev(doc) {
+    canvas = doc.createElement("canvas");
+    canvas.style.boxShadow = "inset 0 0 10px #eee";
+    canvas.style.overflow = "hidden";
+    canvas.style.display = "block";
+    canvas.style.backgroundColor = "#fff";
+    if (document.body.classList.contains("dark")) { canvas.style.filter = "invert(1)"; }
+            
+    ctx = canvas.getContext("2d");
+    ctx.canvas.width  = 120;
+    ctx.canvas.height = 150;
+    ctx.globalAlpha = 0.8;
+
+    return [canvas, ctx];
+}
+
+function drawClass(ctx, d, sT, eT, fill="#555", border) {
     ctx.fillStyle = fill;
-    ctx.strokeStyle = border;
 
     // Calculate relative dimensions of cells
     sT = sT/10 - 70;
@@ -89,6 +104,15 @@ function drawClass(ctx, d, sT, eT, fill="#555", border="#fff") {
     if (d.includes("We")) { ctx.fillRect(w*2, sT, w, eT-sT); }
     if (d.includes("Th")) { ctx.fillRect(w*3, sT, w, eT-sT); }
     if (d.includes("Fr")) { ctx.fillRect(w*4, sT, w, eT-sT); }
+    if (!border) { return; }
+
+    // Draw stroke
+    ctx.strokeStyle = border;
+    if (d.includes("Mo")) { ctx.strokeRect(0,   sT, w, eT-sT); }
+    if (d.includes("Tu")) { ctx.strokeRect(w,   sT, w, eT-sT); }
+    if (d.includes("We")) { ctx.strokeRect(w*2, sT, w, eT-sT); }
+    if (d.includes("Th")) { ctx.strokeRect(w*3, sT, w, eT-sT); }
+    if (d.includes("Fr")) { ctx.strokeRect(w*4, sT, w, eT-sT); }
 }
 
 
@@ -206,14 +230,7 @@ btnRead.onclick = () => {
         for (i=0; doc.getElementById(ID_STATUS + i) != null; i++) {
             curClass = parseClassInfo(doc, ID_DATE+i);
 
-            canvas = doc.createElement("canvas");
-            canvas.style.boxShadow = "inset 0 0 10px #eee";
-            canvas.style.overflow = "hidden";
-            
-            ctx = canvas.getContext("2d");
-            ctx.canvas.width  = 120;
-            ctx.canvas.height = 150;
-            ctx.globalAlpha = 0.8;
+            [canvas, ctx] = createSchedPrev(doc);
 
             // Draw all enrolled classes
             for (j=0; j<regClasses.length; j++) {
@@ -236,14 +253,7 @@ btnRead.onclick = () => {
 
     // Create preview for each class in shopping cart
     for (i=0; doc.getElementById(ID_DATE2+i); i++) {
-        canvas = doc.createElement("canvas");
-        canvas.style.boxShadow = "inset 0 0 10px #eee";
-        canvas.style.overflow = "hidden";
-
-        ctx = canvas.getContext("2d");
-        ctx.canvas.width  = 120;
-        ctx.canvas.height = 150;
-        ctx.globalAlpha = 0.8;
+        [canvas, ctx] = createSchedPrev(doc);
 
         curClass = parseClassInfo(doc, ID_DATE2+i);
         clash = false;
@@ -255,13 +265,16 @@ btnRead.onclick = () => {
                ((regClasses[j].timeStart <= curClass.timeEnd   && curClass.timeEnd   <= regClasses[j].timeEnd)))) {
                 // If class timings clash with registered
 
-                drawClass(ctx, regClasses[j].days, regClasses[j].timeStart, regClasses[j].timeEnd, "#c00", "#000");
-                clash = true;
+                drawClass(ctx, regClasses[j].days, regClasses[j].timeStart, regClasses[j].timeEnd, "#400", "#000");
 
                 canvas.style.boxShadow = "rgb(173 100 100) 0px 0px 10px inset";
                 ctx.font = "15px Arial";
                 ctx.fillStyle = "#500";
-                ctx.fillText("Clash! 💀", 5, 140);
+
+                if (!clash) {
+                    ctx.fillText("Clash! 💀", 5, 140);
+                    clash = true;
+                }
             } else {
                 // If no clash
                 drawClass(ctx, regClasses[j].days, regClasses[j].timeStart, regClasses[j].timeEnd);
@@ -269,7 +282,9 @@ btnRead.onclick = () => {
         }
 
         // Draw class from shopping cart
-        drawClass(ctx, curClass.days, curClass.timeStart, curClass.timeEnd, "#d00");
+        if (clash) { drawClass(ctx, curClass.days, curClass.timeStart, curClass.timeEnd, "#d00", "#000");
+        } else {     drawClass(ctx, curClass.days, curClass.timeStart, curClass.timeEnd, "#040"); }
+        
 
         // Show preview in shopping cart
         doc.getElementById("win0divP_CLASS_NAME$" + i).prepend(canvas);
