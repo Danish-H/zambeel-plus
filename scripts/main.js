@@ -8,7 +8,8 @@ function updateTheme() {
 
 function updateTables() {
     bodies = [document.body];
-
+    
+    // Update tables if inside these specific iframes
     if (document.getElementById("main_target_win0")) { bodies.push(document.getElementById("main_target_win0").contentWindow.document.body) }
     if (document.getElementById("ptifrmtgtframe"))   { bodies.push(document.getElementById("ptifrmtgtframe").contentWindow.document.body)   }
 
@@ -21,24 +22,73 @@ function updateTables() {
 }
 
 function addBtnDark() {
+    // Attempt to add dark mode button in most pages where possible
     if (document.getElementById("win0hdrdivPTLAYOUT_HEADER_GROUPBOX6")) {
         document.getElementById("win0hdrdivPTLAYOUT_HEADER_GROUPBOX6").prepend(btnDark);
     } else if (document.querySelector(".ps_header_bar .ps_actions_cont .ps_system_cont")) {
-        document.querySelector(".ps_header_bar .ps_actions_cont .ps_system_cont").prepend(btnDark);
+               document.querySelector(".ps_header_bar .ps_actions_cont .ps_system_cont").prepend(btnDark);
     } else if (document.getElementById("win354hdrdivPT_ACTION_CONT")) {
-        document.getElementById("win354hdrdivPT_ACTION_CONT").prepend(btnDark);
-    } else {
-        console.log("[!] Could not add dark mode button!")
-    }
+               document.getElementById("win354hdrdivPT_ACTION_CONT").prepend(btnDark);
+    } else { console.log("[!] Could not add dark mode button!"); }
 }
 
 function setAccent(colors) {
+    // Changes the color of the thin accent at the very top of the page
     var style = document.createElement('style');
     style.textContent = 
 `:root:not(.psc_mode-hc) body .ps_header_bar-container:before,
 body #ptbr_header_container:before
 { background: linear-gradient(to right, `+colors[0]+` 0%, `+colors[1]+` 100%) !important; }`;
     document.head.appendChild(style);
+}
+
+function parseClassInfo(doc, timingId, classId) {
+    classDay   = doc.getElementById(timingId).innerHTML.split(" ")[0];
+    classTimeA = doc.getElementById(timingId).innerHTML.split(" - ")[0].replace("AM", "").replace(":", "").split(" ")[1];
+    classTimeB = doc.getElementById(timingId).innerHTML.split(" - ")[1].replace("AM", "").replace(":", "");
+
+    if (classTimeA.includes("PM")) {
+        classTimeA = classTimeA.replace("PM", "");
+        if (!classTimeA.startsWith("12")) { classTimeA = parseInt(classTimeA) + 1200; }
+    }
+    if (classTimeB.includes("PM")) {
+        classTimeB = classTimeB.replace("PM", "");
+        if (!classTimeB.startsWith("12")) { classTimeB = parseInt(classTimeB) + 1200; }
+    }
+
+    if (classId) {
+        className  = doc.getElementById(classId).innerHTML.replace("(", "").replace(")", "").split("<br>\n ");
+        return {
+            name: className[0],
+            number: className[1],
+            days: classDay,
+            timeStart: classTimeA,
+            timeEnd: classTimeB
+        }
+    } else {
+        return {
+            days: classDay,
+            timeStart: classTimeA,
+            timeEnd: classTimeB
+        }
+    }
+}
+
+function drawClass(ctx, d, sT, eT, fill="#555", border="#fff") {
+    ctx.fillStyle = fill;
+    ctx.strokeStyle = border;
+
+    // Calculate relative dimensions of cells
+    sT = sT/10 - 70;
+    eT = eT/10 - 70;
+    w = 20;
+
+    // Draw cells
+    if (d.includes("Mo")) { ctx.fillRect(0,   sT, w, eT-sT); }
+    if (d.includes("Tu")) { ctx.fillRect(w,   sT, w, eT-sT); }
+    if (d.includes("We")) { ctx.fillRect(w*2, sT, w, eT-sT); }
+    if (d.includes("Th")) { ctx.fillRect(w*3, sT, w, eT-sT); }
+    if (d.includes("Fr")) { ctx.fillRect(w*4, sT, w, eT-sT); }
 }
 
 
@@ -90,6 +140,11 @@ if (document.body.classList.contains("dark")) {
 }
 menu.appendChild(btnDark2);
 
+// Create read button
+btnRead = document.createElement("li");
+btnRead.innerHTML = `<a href="#" style="padding: 5px">&#128269;</a>`;
+menu.appendChild(btnRead);
+
 // Add buttons to menu
 document.body.appendChild(menu);
 
@@ -98,9 +153,9 @@ btnTables.onclick = () => {
     localStorage.setItem("zpBetterTables", !document.body.classList.contains("better-tables"));
     updateTables();
     if (document.body.classList.contains("better-tables")) {
-        btnTables.innerHTML = `<a href="#" style="padding: 5px">Better Tables: On</a>`;
+        btnTables.innerHTML = `<a href="#">Better Tables: On</a>`;
     } else {
-        btnTables.innerHTML = `<a href="#" style="padding: 5px">Better Tables: Off</a>`;
+        btnTables.innerHTML = `<a href="#">Better Tables: Off</a>`;
     }
 }
 
@@ -116,7 +171,111 @@ btnDark2.onclick = () => {
     }
 }
 
+// To track previews so they can be removed easily
+var canva = false;
+var canvases = [];
 
+// Read page on click
+btnRead.onclick = () => {
+    if (canva) {
+        for (i=0; i<canvases.length; i++) { canvases[i].remove(); }
+        return canva = false;
+    }
+
+    canva = true;
+
+    var frame = document.getElementById("main_target_win0");
+    var doc = frame.contentWindow.document;
+    var regClasses = []
+
+    const ID_STATUS = "win0divDERIVED_REGFRM1_SSR_STATUS_LONG$185$$";
+    const ID_DATE = "DERIVED_REGFRM1_SSR_MTG_SCHED_LONG$160$$";
+    const ID_DATE2 = "DERIVED_REGFRM1_SSR_MTG_SCHED_LONG$";
+    const ID_CLASS = "E_CLASS_NAME$";
+
+    if (doc.getElementById(ID_STATUS+"0")) {
+        
+        // Parse days and timings of all enrolled classes
+        for (i=0; doc.getElementById(ID_STATUS+i) != null; i++) {
+            if ( doc.getElementById(ID_STATUS+i).innerHTML.includes("SUCCESS")) {
+                regClasses.push(parseClassInfo(doc, ID_DATE+i, ID_CLASS+i));
+            }
+        }
+
+        // Create preview for each class listed (enrolled, dropped, waitlisted)
+        for (i=0; doc.getElementById(ID_STATUS + i) != null; i++) {
+            curClass = parseClassInfo(doc, ID_DATE+i);
+
+            canvas = doc.createElement("canvas");
+            canvas.style.boxShadow = "inset 0 0 10px #eee";
+            canvas.style.overflow = "hidden";
+            
+            ctx = canvas.getContext("2d");
+            ctx.canvas.width  = 120;
+            ctx.canvas.height = 150;
+            ctx.globalAlpha = 0.8;
+
+            // Draw all enrolled classes
+            for (j=0; j<regClasses.length; j++) {
+                drawClass(ctx, regClasses[j].days, regClasses[j].timeStart, regClasses[j].timeEnd); 
+            }
+            
+            // Draw current class
+            drawClass(ctx, curClass.days, curClass.timeStart, curClass.timeEnd, "#000");
+
+            canvases.push(canvas);
+            doc.getElementById("win0divE_CLASS_NAME$" + i).prepend(canvas);
+        }
+    }
+
+    // Save registered classes information in local storage
+    localStorage.setItem("regClasses", JSON.stringify({
+        student: roll,
+        classes: regClasses
+    }));
+
+    // Create preview for each class in shopping cart
+    for (i=0; doc.getElementById(ID_DATE2+i); i++) {
+        canvas = doc.createElement("canvas");
+        canvas.style.boxShadow = "inset 0 0 10px #eee";
+        canvas.style.overflow = "hidden";
+
+        ctx = canvas.getContext("2d");
+        ctx.canvas.width  = 120;
+        ctx.canvas.height = 150;
+        ctx.globalAlpha = 0.8;
+
+        curClass = parseClassInfo(doc, ID_DATE2+i);
+        clash = false;
+
+        // Draw all registered courses
+        for (j=0; j<regClasses.length; j++) {
+            if ((regClasses[j].days == curClass.days) &&
+               ((regClasses[j].timeStart <= curClass.timeStart && curClass.timeStart <= regClasses[j].timeEnd) ||
+               ((regClasses[j].timeStart <= curClass.timeEnd   && curClass.timeEnd   <= regClasses[j].timeEnd)))) {
+                // If class timings clash with registered
+
+                drawClass(ctx, regClasses[j].days, regClasses[j].timeStart, regClasses[j].timeEnd, "#c00", "#000");
+                clash = true;
+
+                canvas.style.boxShadow = "rgb(173 100 100) 0px 0px 10px inset";
+                ctx.font = "15px Arial";
+                ctx.fillStyle = "#500";
+                ctx.fillText("Clash! 💀", 5, 140);
+            } else {
+                // If no clash
+                drawClass(ctx, regClasses[j].days, regClasses[j].timeStart, regClasses[j].timeEnd);
+            }   
+        }
+
+        // Draw class from shopping cart
+        drawClass(ctx, curClass.days, curClass.timeStart, curClass.timeEnd, "#d00");
+
+        // Show preview in shopping cart
+        doc.getElementById("win0divP_CLASS_NAME$" + i).prepend(canvas);
+        canvases.push(canvas);
+    }
+}
 
 // Get roll number
 var roll = "";
