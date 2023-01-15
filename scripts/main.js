@@ -201,12 +201,10 @@ var canvases = [];
 
 // Read page on click
 btnRead.onclick = () => {
-    if (canva) {
+    if (canvases[0]) {
         for (i=0; i<canvases.length; i++) { canvases[i].remove(); }
-        return canva = false;
+        return canvases = [];
     }
-
-    canva = true;
 
     var frame = document.getElementById("main_target_win0");
     var doc = frame.contentWindow.document;
