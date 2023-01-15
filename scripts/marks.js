@@ -96,9 +96,11 @@ window.onload = function () {
     });
 
     // Send POST
-    data = ['add_mark', jsondata];
     chrome.runtime.sendMessage(
-        data,
+        {
+            endpoint: "add_mark",
+            data: jsondata
+        },
         data => {
             try {
                 printMeans(JSON.parse(data));

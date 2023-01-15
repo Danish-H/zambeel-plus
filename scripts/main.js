@@ -305,7 +305,10 @@ if (document.getElementById("pt_envinfo")) {
 // Get color
 if (roll != "") {
     chrome.runtime.sendMessage(
-        ["get_colors", JSON.stringify({ roll_no: roll })],
+        {
+            endpoint: "get_colors",
+            data: JSON.stringify({ roll_no: roll })
+        },
         data => {
             try {
                 setAccent(JSON.parse(data).colors);
