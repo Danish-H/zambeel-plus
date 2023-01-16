@@ -39,6 +39,9 @@ function printMeans(response) {
 
 window.onload = function () {
     // User better tables
+    if (!localStorage.getItem("zpBetterTables")) {
+        localStorage.setItem("zpBetterTables", true);
+    }
     if (localStorage.getItem("zpBetterTables") == "true") {
         document.body.classList.add("better-tables");
     }
