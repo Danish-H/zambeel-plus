@@ -47,3 +47,10 @@ chrome.runtime.onMessage.addListener(
         return true;  // Will respond asynchronously
     }
 );
+
+chrome.runtime.onInstalled.addListener(function (object) {
+    let externalUrl = "http://danishhumair.com/zambeel-plus/installed/v"+chrome.runtime.getManifest().version;
+    if (object.reason === chrome.runtime.OnInstalledReason.INSTALL) {
+        chrome.tabs.create({ url: externalUrl }, function (tab) {console.log("[!] Extension installed");});
+    }
+});
