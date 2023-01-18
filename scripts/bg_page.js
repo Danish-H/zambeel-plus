@@ -1,5 +1,3 @@
-var isCode = false;
-
 chrome.runtime.onMessage.addListener(
     function(data, sender, onSuccess) {
         if (data.endpoint) {

@@ -35,8 +35,13 @@ function startVerify() {
                 currentPage = toPage("refresh");
             } else {
                 document.getElementById("email_addr").innerHTML = data + "@lums.edu.pk";
+                document.getElementById("email_addr2").innerHTML = data + "@lums.edu.pk";
                 currentPage = toPage("verify");
-                chrome.runtime.sendMessage({ query: "isCode" }, data => { if (data) { verify(); }});
+                chrome.storage.local.get(["isCode"]).then((result) => {
+                    if (result.isCode) {
+                        verify();
+                    }
+                });
             }
         }
     );
@@ -90,7 +95,8 @@ function checkCode(code) {
             try {
                 saveToken(JSON.parse(data).token);
             } catch(err) {
-                document.getElementById("code_err").innerHTML = data;
+                error("code", data);
+                chrome.storage.local.set({ isCode: false });
                 console.log("[!] Did not get a valid response from API!");
             }
         }
@@ -100,7 +106,7 @@ function checkCode(code) {
 function saveToken(t) {
     // Save token in storage and disable code entry flag
     chrome.runtime.sendMessage({ token: t });
-    chrome.runtime.sendMessage({ query: "noCode" });
+    chrome.storage.local.set({ isCode: false });
     currentPage = toPage("verified");
 }
 
@@ -118,11 +124,19 @@ document.getElementById("btn_verify").onclick = () => {
         },
         data => {
             // Attempt to start verification
-            if (data == "very good") { verify(); }
+            if (data == "very good") {
+                chrome.storage.local.set({ isCode: true });
+                verify();
+            }
             else { error("verify", data); }
             document.getElementById("btn_verify").innerHTML = "Verify";
         }
     );
+}
+
+document.getElementById("btn_cancel").onclick = () => {
+    chrome.storage.local.set({ isCode: false });
+    currentPage = toPage("verify");
 }
 
 document.getElementById("btn_signout").onclick = () => {
