@@ -23,7 +23,8 @@
     padding-left: 10px;
 }
   
-.zpMenu li a
+.zpMenu li a,
+.zpMenu li a:link
 {
     display: block;
     color: white;

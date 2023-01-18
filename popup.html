@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/popup.css" />
+  </head>
+  <body>
+    <h1>Zambeel+ <span id="version_no"></span></h1>
+    <div id="default">
+      <p>Please wait a moment...</p>
+    </div>
+    <div id="refresh">
+        <p>We were unable to detect your email address. Please refresh and try again.</p>
+    </div>
+    <div id="verify">
+        <p>We detected the email <span id="email_addr"></span>. Please click below to verify your identity!</p>
+        <a class="btn" id="btn_verify" href="#">Verify</a>
+        <p class="err" id="verify_err"></p>
+    </div>
+    <div id="verified">
+      <p class="green">Verification complete!</p>
+      <p>For any kind of support, please feel free to respond to your verification email or contact support zp@danishhumair.com</p>
+      <a class="btn" id="btn_signout" href="#">Sign out everywhere</a>
+      <p class="err" id="verified_err"></p>
+    </div>
+    <div id="code">
+      <p>Please enter the 6-digit code sent to <span id="email_addr">25100183@lums.edu.pk</span>:</p>
+      <div>
+        <input name='code' class='code-input' maxlength="1" required/>
+        <input name='code' class='code-input' maxlength="1" required/>
+        <input name='code' class='code-input' maxlength="1" required/>
+        <input name='code' class='code-input' maxlength="1" required/>
+        <input name='code' class='code-input' maxlength="1" required/>
+        <input name='code' class='code-input' maxlength="1" required/>
+      </div>
+      </fieldset>
+      <p class="err" id="code_err"></p>
+    </div>
+    <script src="./scripts/popup.js" type="module"></script>
+  </body>
+</html>
