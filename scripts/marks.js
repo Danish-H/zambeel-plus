@@ -77,6 +77,17 @@ window.onload = function () {
             };
             marksArr.push(mark);
             document.getElementById(ID_OTHER + i).innerHTML += "✔ Read by <b style='color: purple;'><i>Z+</i></b>";
+            
+            // Calculate colour based on absolute mark between 0.3 and 1.0
+            perf = document.getElementById(ID_MARK + i).innerHTML/document.getElementById(ID_MAX + i).innerHTML;
+            hue = ((perf-0.3)*(120*(1/0.7)));
+            if (hue < 0) { hue = 0; }
+
+            // Invert if dark mode is on
+            if (localStorage.getItem("zpDarkMode") == "true") { hue += 180; }
+
+            // Show colour
+            document.getElementById(ID_MARK + i).parentNode.parentNode.style.borderLeft = "10px solid hsl("+hue+", 60%, 50%)";
         }
     }
 

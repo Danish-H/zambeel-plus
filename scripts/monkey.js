@@ -1,13 +1,16 @@
 const ID_OTHER = "DERIVED_LAM_EXPLANATION$";
 const ID_OVERALL  = "DERIVED_LAM_LAM_SPECIAL_CHAR$17$";
+const ID_MARK = "STDNT_GRADE_DTL_STUDENT_GRADE$";
 
 arrayAvg = [];
+colors = []
 
 // Save old data
 overall = document.getElementById(ID_OVERALL).innerHTML;
 
 for (i=0; document.getElementById(ID_OTHER + i) != null; i++) {
     arrayAvg.push(document.getElementById(ID_OTHER + i).innerHTML);
+    colors.push(document.getElementById(ID_MARK + i).parentNode.parentNode.style.borderLeft);
 }
 
 
@@ -23,5 +26,6 @@ disableInteractionDuringProcessing = function (form, id, event, sAjaxTrfUrl, bWa
 
     for (i=0; document.getElementById(ID_OTHER + i) != null; i++) {
         document.getElementById(ID_OTHER + i).innerHTML = arrayAvg[i];
+        document.getElementById(ID_MARK + i).parentNode.parentNode.style.borderLeft = colors[i];
     }
 }
