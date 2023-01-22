@@ -37,8 +37,8 @@
         }
     ],
 
-    "host_permissions": ["https://zp.danishhumair.com/*"],
-    "permissions": ["storage"],
+    "host_permissions": ["https://zp.danishhumair.com/*", "https://zambeel.lums.edu.pk/*"],
+    "permissions": ["storage", "webRequest", "scripting"],
 
     "background": {
         "service_worker": "scripts/bg_page.js"

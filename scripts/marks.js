@@ -66,6 +66,8 @@ window.onload = function () {
     const ID_MAX = "LAM_CLASS_ACTV_MARK_OUT_OF$";
     const ID_OTHER = "DERIVED_LAM_EXPLANATION$";
     const ID_OVERALL  = "STDNT_GRADE_HDR_GRADE_AVG_CURRENT";
+    const ID_COURSE = "DERIVED_SSR_FC_SSR_CLASSNAME_LONG$span";
+    const ID_SEM = "DERIVED_SSR_FC_SSS_PAGE_KEYDESCR2";
 
     // Parse marks
     for (i=0; document.getElementById(ID_COMP + i) != null; i++) {
@@ -95,6 +97,8 @@ window.onload = function () {
     // Parse overall
     if (document.getElementById(ID_OVERALL).innerHTML != null) {
         marksArr.push({
+            "course": document.getElementById(ID_COURSE).innerHTML.split(" - ")[0],
+            "sem": document.getElementById(ID_SEM).innerHTML.split(" | ")[0],
             "component_no": -1,
             "component": "Overall",
             "mark": document.getElementById(ID_OVERALL).innerHTML,
