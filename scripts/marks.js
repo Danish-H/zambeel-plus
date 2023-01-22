@@ -30,8 +30,9 @@ function getURLParams(url) {
 
 function printMeans(response) {
     meansArr = response.means;
+    componentsArr = response.components;
     for (i=0; i<meansArr.length; i++) {
-        document.getElementById("DERIVED_LAM_EXPLANATION$"+ i).innerHTML += meansArr[i];
+        document.getElementById("DERIVED_LAM_EXPLANATION$"+ componentsArr[i]).innerHTML += meansArr[i];
     }
     document.getElementById("DERIVED_LAM_LAM_SPECIAL_CHAR$17$").innerHTML += response.overall_mean;
     monkeyPatch();
