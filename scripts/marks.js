@@ -31,10 +31,50 @@ function getURLParams(url) {
 function printMeans(response) {
     meansArr = response.means;
     componentsArr = response.components;
+
+    // Write means
     for (i=0; i<meansArr.length; i++) {
         document.getElementById("DERIVED_LAM_EXPLANATION$"+ componentsArr[i]).innerHTML += meansArr[i];
     }
+
+    // Write overall mean
     document.getElementById("DERIVED_LAM_LAM_SPECIAL_CHAR$17$").innerHTML += response.overall_mean;
+
+    // Write cutoffs
+    if (response.cutoffs.length > 0) {
+        cutoffsTable = document.createElement("table");
+        cutoffsTable.style.margin = "20px auto";
+        cutoffsTable.setAttribute("id", "zp_cutoffs_table");
+
+        // For each letter
+        for (j=0; j<3; j++) {
+            // For each variant (+,-,)
+            var cutoffRow = document.createElement("tr");
+            for (i=j; i<response.cutoffs.length; i=i+3) {
+                // <td>A+</td>
+                var letter = document.createElement("td");
+                letter.style.textAlign = "left";
+                letter.style.border = "1px solid #ccc";
+                letter.style.borderRadius = "4px";
+                letter.style.marginTop = "3px";
+                letter.innerHTML = response.cutoffs[i].split(" ")[0];
+                
+                // <td>90.00%</td>
+                cutoffRow.append(letter);
+                var cutoff = document.createElement("td");
+                cutoff.style.textAlign = "left";
+                cutoff.style.border = "1px solid #ccc";
+                cutoff.style.borderRadius = "4px";
+                cutoff.style.marginTop = "3px";
+                cutoff.innerHTML = response.cutoffs[i].split(" ")[1];
+                cutoffRow.append(cutoff);
+            }
+            cutoffsTable.append(cutoffRow);
+        }
+
+        // Insert cutoffs table in page
+        document.getElementById("win0divSTDNT_GRADE_HDR_GRADE_AVG_CURRENTlbl").parentNode.parentNode.parentNode.parentNode.parentNode.append(cutoffsTable);
+    }
     monkeyPatch();
 }
 
