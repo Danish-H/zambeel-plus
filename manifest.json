@@ -3,7 +3,7 @@
     
     "name": "Zambeel+",
     "description": "Add useful features to Zambeel!",
-    "version": "0.0.5",
+    "version": "0.0.6",
 
     "icons": {
         "16": "images/icon-16.png",
@@ -27,6 +27,10 @@
             "js": ["scripts/marks.js"],
             "css": ["assets/tables.css"],
             "all_frames": true
+        },
+        {
+            "matches": ["https://lms.lums.edu.pk/*"],
+            "js": ["scripts/jszip.min.js", "scripts/lms.js"]
         }
     ],
 
@@ -34,10 +38,14 @@
         {
             "matches": ["https://zambeel.lums.edu.pk/*"],
             "resources": ["scripts/monkey.js"]
+        },
+        {
+            "matches": ["https://lms.lums.edu.pk/*"],
+            "resources": ["scripts/jszip.min.js"]
         }
     ],
 
-    "host_permissions": ["https://zp.danishhumair.com/*", "https://zambeel.lums.edu.pk/*"],
+    "host_permissions": ["https://zp.danishhumair.com/*", "https://zambeel.lums.edu.pk/*", "https://lms.lums.edu.pk/*"],
     "permissions": ["storage", "webRequest", "scripting"],
 
     "background": {
