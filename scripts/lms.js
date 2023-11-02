@@ -106,6 +106,8 @@ function mainScript() {
             }
             count++;
         }
+
+        loadingElem.textContent = `Creating zip file...`;
     
         zip.generateAsync({type:"blob"}).then(function(content) {
             const a = document.createElement('a');
