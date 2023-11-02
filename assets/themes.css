@@ -112,3 +112,16 @@ body.dark .ps_box-popupmenu,
 body.dark .psNavBar {
     filter: invert(0.9) grayscale(1) !important;
 }
+
+body.dark #PT_SIDE,
+body.dark #PT_SIDE2 {
+    background: black;
+}
+
+body.dark .ps_box-group.psc_layout.lpnavigation {
+    background: black;
+}
+
+body.dark .ps_box-group.lp_header-search {
+    filter: invert(0.9) !important;
+}
