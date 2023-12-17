@@ -39,7 +39,7 @@ function mainScript() {
         if (!match) return null;
         
         const originalURL = match[1];
-        return `${originalURL.replace("/access/", "/access/accept?ref=")}&url=${originalURL.split('/access')[1]}`;
+        return `${originalURL.replace("/access/", "/access/accept?ref=/")}&url=${originalURL.split('/access')[1]}`;
     }
 
     async function createZip() {
