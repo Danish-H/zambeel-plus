@@ -81,7 +81,7 @@ function mainScript() {
         for (const linkElem of fileLinks) {
             const link = linkElem.href;
             const parts = link.split('/group/');
-            const pathParts = parts[1] ? parts[1].split('/') : [];
+            const pathParts = parts[1] ? parts[parts.length - 1].split('/') : [];
     
             pathParts[0] = courseTitle;
             const filePath = decodeURIComponent(pathParts.join('/'));
