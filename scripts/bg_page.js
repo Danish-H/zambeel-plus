@@ -127,6 +127,14 @@ function parseGrades() {
     );
 }
 
+function autoEnrollSecondStep() {
+    const ID_BUTTON_SECONDSTEP = "DERIVED_REGFRM1_SSR_PB_SUBMIT";
+    const btnSecondStep = document.getElementById(ID_BUTTON_SECONDSTEP);
+    if (btnSecondStep.getAttribute("value") == "Finish Enrolling") {
+        btnSecondStep.click();
+    }
+}
+
 chrome.webRequest.onCompleted.addListener(
     function(details) {
         chrome.scripting.executeScript({
@@ -136,3 +144,13 @@ chrome.webRequest.onCompleted.addListener(
     },
     {urls: ["https://zambeel.lums.edu.pk/psc/ps/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.SSR_SSENRL_GRADE.GBL*"]}
 );
+
+chrome.webRequest.onCompleted.addListener(
+    function(details) {
+        chrome.scripting.executeScript({
+            target: { tabId: details.tabId, allFrames : true},
+            func: autoEnrollSecondStep
+        });
+    },
+    {urls: ["https://zambeel.lums.edu.pk/psc/ps/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.SSR_SSENRL_ADD.GBL*"]}
+)
