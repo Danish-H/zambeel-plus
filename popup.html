@@ -9,23 +9,28 @@
   <body>
     <h1>Zambeel+ <span id="version_no"></span></h1>
     <div id="default">
+      <h2>Account</h2>
       <p>Please wait a moment...</p>
     </div>
     <div id="refresh">
+      <h2>Account</h2>
         <p>We were unable to detect your email address. Please refresh and try again.</p>
     </div>
     <div id="verify">
+      <h2>Account</h2>
         <p>We detected the email <span id="email_addr"></span>. Please click below to verify your identity!</p>
         <a class="btn" id="btn_verify" href="#">Verify</a>
         <p class="err" id="verify_err"></p>
     </div>
     <div id="verified">
+      <h2>Account</h2>
       <p class="green">Verification complete!</p>
       <p>For any kind of support, please feel free to respond to your verification email or contact support zp@danishhumair.com</p>
       <a class="btn" id="btn_signout" href="#">Sign out everywhere</a>
       <p class="err" id="verified_err"></p>
     </div>
     <div id="code">
+      <h2>Account</h2>
       <p>Please enter the 6-digit code sent to <span id="email_addr2"></span>:</p>
       <div>
         <input name='code' class='code-input' maxlength="1" required/>
@@ -38,6 +43,40 @@
       </fieldset>
       <p><a class="btn" id="btn_cancel" href="#">Cancel</a></p>
       <p class="err" id="code_err"></p>
+    </div>
+    <div id="settings" style="display: block;">
+      <h2>Settings</h2>
+      <div>
+        <div>
+          <label style="width: 180px; float: left;" for="toggle">
+            Average marks
+            <span class="info-container">
+              <span class="info-icon">i</span>
+              <div class="tooltip-text">
+                Enabling this feature sends <strong>anonymized</strong> marks to Zambeel+ to calculate assignment marks' averages. Data cannot be traced back to your roll number.
+              </div>
+            </span>
+          </label>
+          <label style="float: right;" class="switch">
+            <input type="checkbox" id="toggle_averageMarks">
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div>
+          <label style="width: 180px; float: left;" for="toggle2">LMS downloader</label>
+          <label style="float: right;" class="switch" id="toggle_lmsDownloader" style="cursor: not-allowed;">
+            <input type="checkbox" disabled checked>
+            <span class="slider round" style="cursor: not-allowed;"></span>
+          </label>
+        </div>
+        <div>
+          <label style="width: 180px; float: left;" for="toggle2">Color scales</label>
+          <label style="float: right;" class="switch" style="cursor: not-allowed;">
+            <input type="checkbox" id="toggle_colorScales" disabled checked>
+            <span class="slider round" style="cursor: not-allowed;"></span>
+          </label>
+        </div>
+      </div>
     </div>
     <script src="./scripts/popup.js" type="module"></script>
   </body>

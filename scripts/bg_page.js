@@ -1,29 +1,56 @@
+// Initialize settings variable
+let settings = {
+    averageMarks: true,  // default values
+    lmsDownloader: true,
+    colorScales: true
+};
+
+// Function to load settings from storage
+function loadSettings() {
+    chrome.storage.local.get(["settings"], function(result) {
+        settings = result.settings || settings;  // Use existing settings if none in storage
+    });
+}
+
+// Load settings initially
+loadSettings();
+
+// Listen for changes to settings in storage
+chrome.storage.onChanged.addListener(function(changes, namespace) {
+    if (namespace === "local" && changes.settings) {
+        settings = changes.settings.newValue;
+    }
+});
+
 chrome.runtime.onMessage.addListener(
     function(data, sender, onSuccess) {
         if (data.endpoint) {
-            // Sent POST request
-            chrome.storage.local.get(["token"]).then((result) => { 
-                fetch('https://zp.danishhumair.com/' + data.endpoint, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Auth-Token': result.token
-                    },
-                    body: data.data
-                })
-                .then(response => response.text())
-                .then(responseText => onSuccess(responseText));
-            });
+            if (settings.averageMarks) {
+                // Sent POST request
+                chrome.storage.local.get(["token"]).then((result) => { 
+                    fetch('https://zp.danishhumair.com/' + data.endpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Auth-Token': result.token
+                        },
+                        body: data.data
+                    })
+                    .then(response => response.text())
+                    .then(responseText => onSuccess(responseText));
+                });
 
-            if (data.endpoint == "get_colors") {
-                // Save roll number for verification email
-                chrome.storage.local.set({ roll: JSON.parse(data.data).roll_no });
-            } else if (data.endpoint == "verify") {
-                // Remember to re-open code entry page
-                isCode = true;
+                if (data.endpoint == "get_colors") {
+                    // Save roll number for verification email
+                    chrome.storage.local.set({ roll: JSON.parse(data.data).roll_no });
+                } else if (data.endpoint == "verify") {
+                    // Remember to re-open code entry page
+                    isCode = true;
+                }
+            } else {
+                console.log("Average marks feature is disabled. Not processing API request.");
             }
-
         } else if (data.query) {
 
             if (data.query == "roll") {
@@ -137,10 +164,14 @@ function autoEnrollSecondStep() {
 
 chrome.webRequest.onCompleted.addListener(
     function(details) {
-        chrome.scripting.executeScript({
-            target: { tabId: details.tabId, allFrames : true},
-            func: parseGrades
-        });
+        if (settings.averageMarks) {
+            chrome.scripting.executeScript({
+                target: { tabId: details.tabId, allFrames : true},
+                func: parseGrades
+            });
+        } else {
+            console.log("Average marks feature is disabled. Not executing parseGrades.");
+        }
     },
     {urls: ["https://zambeel.lums.edu.pk/psc/ps/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.SSR_SSENRL_GRADE.GBL*"]}
 );

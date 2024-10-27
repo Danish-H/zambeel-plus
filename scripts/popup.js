@@ -3,6 +3,77 @@ var roll;
 var currentPage = null;
 currentPage = toPage();
 
+// Initialize settings with default values if not already set
+chrome.storage.local.get(["settings"], function(result) {
+    let settings = result.settings || {
+        averageMarks: true,
+        lmsDownloader: true,
+        colorScales: true
+    };
+
+    // Update the toggles to reflect the settings
+    document.getElementById("toggle_averageMarks").checked = settings.averageMarks;
+    // document.getElementById("toggle_lmsDownloader").checked = settings.lmsDownloader;
+    // document.getElementById("toggle_colorScales").checked = settings.colorScales;
+
+    // Disable account section if average marks is disabled
+    if (!settings.averageMarks) {
+        // Hide the account sections
+        document.getElementById("default").style.display = "none";
+        document.getElementById("refresh").style.display = "none";
+        document.getElementById("verify").style.display = "none";
+        document.getElementById("verified").style.display = "none";
+        document.getElementById("code").style.display = "none";
+    } else {
+        // Start the account verification process
+        start();
+    }
+
+    // Store the settings back in storage
+    chrome.storage.local.set({ settings: settings });
+});
+
+// Add event listeners to the toggles to save the settings when changed
+document.getElementById("toggle_averageMarks").addEventListener("change", function() {
+    let averageMarksEnabled = this.checked;
+    chrome.storage.local.get(["settings"], function(result) {
+        let settings = result.settings || {};
+        settings.averageMarks = averageMarksEnabled;
+        chrome.storage.local.set({ settings: settings }, function() {
+            // If average marks is disabled, disable account section
+            if (!averageMarksEnabled) {
+                // Hide the account sections
+                document.getElementById("default").style.display = "none";
+                document.getElementById("refresh").style.display = "none";
+                document.getElementById("verify").style.display = "none";
+                document.getElementById("verified").style.display = "none";
+                document.getElementById("code").style.display = "none";
+            } else {
+                // Start the account verification process
+                start();
+            }
+        });
+    });
+});
+
+// document.getElementById("toggle_lmsDownloader").addEventListener("change", function() {
+//     let lmsDownloaderEnabled = this.checked;
+//     chrome.storage.local.get(["settings"], function(result) {
+//         let settings = result.settings || {};
+//         settings.lmsDownloader = lmsDownloaderEnabled;
+//         chrome.storage.local.set({ settings: settings });
+//     });
+// });
+
+// document.getElementById("toggle_colorScales").addEventListener("change", function() {
+//     let colorScalesEnabled = this.checked;
+//     chrome.storage.local.get(["settings"], function(result) {
+//         let settings = result.settings || {};
+//         settings.colorScales = colorScalesEnabled;
+//         chrome.storage.local.set({ settings: settings });
+//     });
+// });
+
 function toPage(toPage="default") {
     if (currentPage) { document.getElementById(currentPage).style.display = "none"; }
     document.getElementById(toPage).style.display = "block";
