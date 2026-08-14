@@ -29,7 +29,7 @@
             "all_frames": true
         },
         {
-            "matches": ["https://lms.lums.edu.pk/*"],
+            "matches": ["https://lms.lums.edu.pk/*", "https://lmsarchive-2026.lums.edu.pk/*"],
             "js": ["scripts/jszip.min.js", "scripts/lms.js"]
         }
     ],
@@ -40,12 +40,12 @@
             "resources": ["scripts/monkey.js"]
         },
         {
-            "matches": ["https://lms.lums.edu.pk/*"],
+            "matches": ["https://lms.lums.edu.pk/*", "https://lmsarchive-2026.lums.edu.pk/*"],
             "resources": ["scripts/jszip.min.js"]
         }
     ],
 
-    "host_permissions": ["https://zp.danishhumair.com/*", "https://zambeel.lums.edu.pk/*", "https://lms.lums.edu.pk/*"],
+    "host_permissions": ["https://zp.danishhumair.com/*", "https://zambeel.lums.edu.pk/*", "https://lms.lums.edu.pk/*", "https://lmsarchive-2026.lums.edu.pk/*"],
     "permissions": ["storage", "webRequest", "scripting"],
 
     "background": {
