@@ -43,7 +43,9 @@ function mainScript() {
     }
 
     async function createZip() {
-        const specialLinks = Array.from(document.querySelectorAll('td.specialLink > a:not(.fa)'));
+        const specialLinks = Array.from(document.querySelectorAll('td.specialLink a[href*="/access/content/group/"]'))
+        .filter(link => link.querySelector('.resource-name'))
+        .filter((link, index, links) =>links.findIndex(other => other.href === link.href) === index);
     
         const fileLinks = specialLinks.filter(linkElem => {
             if (linkElem.parentElement.textContent.includes('©')) {
